@@ -1,0 +1,27 @@
+do -- script NewLuaBehavior 
+    
+    -- get reference to the script
+    local itemScript = LUA.script;
+    local mlgrab_reference = nil;
+
+    local itemName = SerializedField("Item Name", String);
+    
+    local function OnPrimaryGrabBegin()
+        Debug.Log("HELP! HELP! I'M BEING OPPRESSED!");
+        item.gameObject.tag = "Item"
+    end
+    
+    -- start only called at beginning
+    function itemScript.Start()
+        mlgrab_reference = itemScript.gameObject.GetComponent(MLGrab);
+        mlgrab_reference.OnPrimaryGrabBegin.Add(OnPrimaryGrabBegin);
+    
+    end
+
+    
+    -- update called every frame
+    function itemScript.Update()
+
+    
+    end
+end
