@@ -1,0 +1,53 @@
+do -- script NewLuaBehavior 
+    
+    -- get reference to the script
+    local NewLuaBehavior = LUA.script;
+
+    -- get reference to the Game Manager
+    local gameManagerObject = SerializedField("Game Manager Object", GameObject);
+    local GM;
+
+    -- what ranking is the pedestal
+    local pedestalNumber = SerializedField("Pedestal Number", Number);
+    
+    -- start only called at beginning
+    function NewLuaBehavior.Start()
+        Debug.Log("HEY THE START OF THE PEDESTAL SCRIPT IS IN FACT WORKING");
+        GM = gameManagerObject.GetComponent(gameManager).script;
+    
+
+    
+    end
+    
+    -- detecting when one of the items enters the trigger
+    function NewLuaBehavior.OnTriggerEnter(collision)
+        local objName = string.lower(tostring(collision.gameObject));
+
+        local hasComponent, component = collision.TryGetComponent(itemScript);
+        if hasComponent then
+            Debug.Log("Object ".. objName .. " was placed onto pedestal number ".. pedestalNumber);
+            GM.UpdateTheText(objName, pedestalNumber);
+        else
+            Debug.Log("Something (" .. objName .. ") entered the trigger, but it's not an item so it's probably fine.");
+        end
+    end
+
+    function NewLuaBehavior.OnTriggerExit(collision)
+
+        local objName = string.lower(tostring(collision.gameObject));
+
+        local hasComponent, component = collision.TryGetComponent(itemScript);
+        if hasComponent then
+            Debug.Log("Oop, nevermind, ".. objName .. " just left pedestal ".. pedestalNumber .. ", goodbye forever ;-;");
+            GM.ResetTheText(pedestalNumber);
+        end
+
+    end
+
+    
+    -- update called every frame
+    function NewLuaBehavior.Update()
+
+    
+    end
+end
