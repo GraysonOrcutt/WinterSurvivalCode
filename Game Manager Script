@@ -1,0 +1,50 @@
+do -- script NewLuaBehavior 
+    
+    -- get reference to the script
+    local NewLuaBehavior = LUA.script;
+
+    local textObject = SerializedField("TextObject", GameObject, 1);
+    local textObjectText;
+
+    local textObjectArray = SerializedField("Text Object Array", GameObject, 12);
+    local textObjectArrayText;
+
+    local objectRankingArray = SerializedField("Object Array", String, 12);
+
+    -- start only called at beginning
+    function NewLuaBehavior.Start()
+        textObjectText = textObject.GetComponent(TextMesh);
+        textObjectText.text = "Testing Dialog Woohoo";
+    
+
+
+
+    end
+
+    -- function called when an object enters a pedestal trigger (called by the pedestals)
+    function NewLuaBehavior.UpdateTheText(thing, ranking)
+        Debug.Log("Ayo what's up I'm the Game Manager I recieved information about ".. thing .. " from Pedestal " .. ranking .. ", how's about that?");
+        
+        textObjectArrayText = textObjectArray[ranking].GetComponent(TextMesh);
+        textObjectArrayText.text = thing;
+        
+        objectRankingArray[ranking] = thing;
+
+        textObjectText.text = thing;
+    end
+
+    -- function called when an object exits a pedestal trigger (also called by the pedestals)
+    function NewLuaBehavior.ResetTheText(ranking)
+        textObjectArrayText = textObjectArray[ranking].GetComponent(TextMesh);
+        textObjectArrayText.text = "Empty";
+
+        objectRankingArray[ranking] = "Empty";
+    end
+
+    
+    -- update called every frame
+    function NewLuaBehavior.Update()
+
+    
+    end
+end
